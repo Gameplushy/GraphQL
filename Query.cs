@@ -10,12 +10,11 @@ namespace GraphQL
 
         [GraphQLDescription("Fetch list of games, using certain filters if needed")]
         public Games? Games([Service] DBContext dBContext, 
-            [GraphQLDescription("(Optional) Page number. Size of page is 15")] int? page, 
             [GraphQLDescription("(Optional) Filter by game genre")] string? genre, 
             [GraphQLDescription("(Optional) Filter by platform")] string? platform, 
-            [GraphQLDescription("(Optional) Filter by game studio")] string? studio)
+            [GraphQLDescription("(Optional) Filter by game studio")] string? studio,
+            [GraphQLDescription("(Optional) Page number. Size of page is 15")] int page = 1 )
         {
-            page = page ?? 1;
             if (page < 1) return null;
             IEnumerable<Game> targetedGames = dBContext.Games.Include(g=>g.Editors).Include(g=>g.Studios);
             if (genre != null) targetedGames = targetedGames.Where(g => g.Genres.Contains(genre));
@@ -30,7 +29,7 @@ namespace GraphQL
                     PreviousPage = page == 1 ? null : page - 1,
                     NextPage = targetedGames.Count() <= page * PAGESIZE ? null : page + 1
                 },
-                Results = targetedGames.Skip(((int)page - 1) * PAGESIZE).Take(PAGESIZE).ToList()
+                Results = targetedGames.Skip((page - 1) * PAGESIZE).Take(PAGESIZE).ToList()
             };
         }
 
