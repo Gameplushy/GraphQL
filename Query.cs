@@ -8,7 +8,12 @@ namespace GraphQL
     {
         const int PAGESIZE = 15;
 
-        public Games? Games([Service] DBContext dBContext, int? page, string? genre, string? platform, string? studio)
+        [GraphQLDescription("Fetch list of games, using certain filters if needed")]
+        public Games? Games([Service] DBContext dBContext, 
+            [GraphQLDescription("(Optional) Page number. Size of page is 15")] int? page, 
+            [GraphQLDescription("(Optional) Filter by game genre")] string? genre, 
+            [GraphQLDescription("(Optional) Filter by platform")] string? platform, 
+            [GraphQLDescription("(Optional) Filter by game studio")] string? studio)
         {
             page = page ?? 1;
             if (page < 1) return null;
@@ -29,9 +34,10 @@ namespace GraphQL
             };
         }
 
-        public Studios? Studios([Service] DBContext dbContext, int? page)
+        [GraphQLDescription("Fetch all studios, by pages of 15")]
+        public Studios? Studios([Service] DBContext dbContext, 
+           [GraphQLDescription("(Optional) A positive page number")] int page = 1)
         {
-            page = page ?? 1;
             if (page < 1) return null;
             return new Studios()
             {
@@ -42,18 +48,21 @@ namespace GraphQL
                     PreviousPage = page == 1 ? null : page - 1,
                     NextPage = dbContext.Studios.Count() <= page * PAGESIZE ? null : page + 1
                 },
-                Results = dbContext.Studios.Include(s=>s.Games).Skip(((int)page - 1) * PAGESIZE).Take(PAGESIZE).ToList()
+                Results = dbContext.Studios.Include(s=>s.Games).Skip((page - 1) * PAGESIZE).Take(PAGESIZE).ToList()
             };
         }
 
-        public Studio? Studio([Service] DBContext dbContext, int id)
+        [GraphQLDescription("Fetch a specific studio by Id")]
+        public Studio? Studio([Service] DBContext dbContext, 
+            [GraphQLDescription("The studio's Id")] int id)
         {
             return dbContext.Studios.Include(s=>s.Games).FirstOrDefault(s => s.Id == id);
         }
 
-        public Editors? Editors([Service] DBContext dbContext, int? page)
+        [GraphQLDescription("Fetch all editors, by pages of 15")]
+        public Editors? Editors([Service] DBContext dbContext,
+            [GraphQLDescription("(Optional) A positive page number")] int page = 1)
         {
-            page = page ?? 1;
             if(page < 1) return null;
             return new Editors()
             {
@@ -64,11 +73,13 @@ namespace GraphQL
                     PreviousPage = page == 1 ? null : page - 1,
                     NextPage = dbContext.Editors.Count() <= page*PAGESIZE ? null : page + 1
                 },
-                Results = dbContext.Editors.Include(e=>e.Games).Skip(((int)page - 1) * PAGESIZE).Take(PAGESIZE).ToList()
+                Results = dbContext.Editors.Include(e=>e.Games).Skip((page - 1) * PAGESIZE).Take(PAGESIZE).ToList()
             };
         }
 
-        public Editor? Editor([Service] DBContext dbContext, int id)
+        [GraphQLDescription("Fetch a specific editor by Id")]
+        public Editor? Editor([Service] DBContext dbContext,
+            [GraphQLDescription("The editor's Id")] int id)
         {
             return dbContext.Editors.Include(e=>e.Games).FirstOrDefault(e => e.Id == id);
         }
