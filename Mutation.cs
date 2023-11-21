@@ -52,6 +52,17 @@ namespace GraphQL
             return editor;
         }
 
+        public bool DeleteEditor([Service] DBContext dbContext, [ID] int id)
+        {
+            Editor? editor = dbContext.Editors.SingleOrDefault(e=>e.Id == id);
+            if (editor == null) return false;
+            dbContext.Remove(editor);
+            List<Game> deleteGames = dbContext.Games.Include(g=>g.Editors).Where(g => g.Editors.Count == 0).ToList();
+            dbContext.RemoveRange(deleteGames);
+            dbContext.SaveChanges();
+            return true;
+        }
+
         public Studio? CreateStudio([Service] DBContext dBContext, string name, List<int>? gameIds)
         {
             if (gameIds != null)
@@ -96,6 +107,17 @@ namespace GraphQL
             }
             dBContext.SaveChanges();
             return studio;
+        }
+
+        public bool DeleteStudio([Service] DBContext dbContext, [ID] int id)
+        {
+            Studio? studio = dbContext.Studios.SingleOrDefault(s => s.Id == id);
+            if (studio == null) return false;
+            dbContext.Remove(studio);
+            List<Game> deleteGames = dbContext.Games.Include(g => g.Studios).Where(g => g.Studios.Count == 0).ToList();
+            dbContext.RemoveRange(deleteGames);
+            dbContext.SaveChanges();
+            return true;
         }
 
         public Game? CreateGame([Service] DBContext dBContext, string name, List<string> genres, int? publicationDate, List<int> editors, List<int> studios, List<string> platforms)
@@ -186,6 +208,15 @@ namespace GraphQL
             }
             dBContext.SaveChanges();
             return game;
+        }
+
+        public bool DeleteGame([Service] DBContext dbContext, [ID] int id)
+        {
+            Game? game = dbContext.Games.SingleOrDefault(s => s.Id == id);
+            if (game == null) return false;
+            dbContext.Remove(game);
+            dbContext.SaveChanges();
+            return true;
         }
     }
 }
