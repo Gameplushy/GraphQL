@@ -8,7 +8,11 @@ builder.Services.AddDbContext<DBContext>(opt => opt.UseSqlServer("Server=(local)
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddGraphQLServer().AddQueryType<Query>();
+builder.Services.AddGraphQLServer()
+                .AddQueryType<Query>()
+                .AddMutationType<Mutation>()
+                .AddDefaultTransactionScopeHandler()
+                .AddMutationConventions(applyToAllMutations: true);
 
 
 var app = builder.Build();
