@@ -6,7 +6,10 @@ namespace GraphQL
 {
     public class Mutation
     {
-        public Editor? CreateEditor([Service] DBContext dBContext, string name, List<int>? gameIds)
+        [GraphQLDescription("Creates an editor")]
+        public Editor? CreateEditor([Service] DBContext dBContext, 
+            [GraphQLDescription("Name of the editor")] string name, 
+            [GraphQLDescription("(Optional) List of ids of the games this editor has contributed to")] List<int>? gameIds)
         {
             if (gameIds != null)
             {
@@ -20,7 +23,11 @@ namespace GraphQL
             return newEditor.Entity;
         }
 
-        public Editor? EditEditor([Service] DBContext dBContext, [ID] int id, string? name, List<int>? gameIds)
+        [GraphQLDescription("Edits an already existing editor")]
+        public Editor? EditEditor([Service] DBContext dBContext, 
+            [GraphQLDescription("Id of the editor to edit")] [ID] int id, 
+            [GraphQLDescription("(Optional) New name of the editor")] string? name,
+            [GraphQLDescription("(Optional) New list of ids of games the editor has contributed to")]  List<int>? gameIds)
         {
             Editor? editor = dBContext.Editors.Include(e => e.Games).SingleOrDefault(e => e.Id == id);
             if (editor == null) return null;
@@ -52,7 +59,8 @@ namespace GraphQL
             return editor;
         }
 
-        public bool DeleteEditor([Service] DBContext dbContext, [ID] int id)
+        [GraphQLDescription("Deletes an editor")]
+        public bool DeleteEditor([Service] DBContext dbContext, [GraphQLDescription("Id of the editor")][ID] int id)
         {
             Editor? editor = dbContext.Editors.SingleOrDefault(e=>e.Id == id);
             if (editor == null) return false;
@@ -63,7 +71,10 @@ namespace GraphQL
             return true;
         }
 
-        public Studio? CreateStudio([Service] DBContext dBContext, string name, List<int>? gameIds)
+        [GraphQLDescription("Creates a studio")]
+        public Studio? CreateStudio([Service] DBContext dBContext,
+            [GraphQLDescription("Name of the studio")] string name,
+            [GraphQLDescription("(Optional) List of ids of the games this studio has contributed to")] List<int>? gameIds)
         {
             if (gameIds != null)
             {
@@ -77,7 +88,11 @@ namespace GraphQL
             return newStudio.Entity;
         }
 
-        public Studio? EditStudio([Service] DBContext dBContext, [ID] int id, string? name, List<int>? gameIds)
+        [GraphQLDescription("Edits an already existing studio")]
+        public Studio? EditStudio([Service] DBContext dBContext, 
+            [GraphQLDescription("Id of the editor to edit")] [ID] int id, 
+            [GraphQLDescription("(Optional) New name of the studio")] string? name, 
+            [GraphQLDescription("(Optional) New list of ids this studio has contributed to")]  List<int>? gameIds)
         {
             Studio? studio = dBContext.Studios.Include(s => s.Games).SingleOrDefault(s => s.Id == id);
             if (studio == null) return null;
@@ -109,7 +124,8 @@ namespace GraphQL
             return studio;
         }
 
-        public bool DeleteStudio([Service] DBContext dbContext, [ID] int id)
+        [GraphQLDescription("Deletes a studio")]
+        public bool DeleteStudio([Service] DBContext dbContext, [GraphQLDescription("Id of the studio")][ID] int id)
         {
             Studio? studio = dbContext.Studios.SingleOrDefault(s => s.Id == id);
             if (studio == null) return false;
@@ -120,7 +136,14 @@ namespace GraphQL
             return true;
         }
 
-        public Game? CreateGame([Service] DBContext dBContext, string name, List<string> genres, int? publicationDate, List<int> editors, List<int> studios, List<string> platforms)
+        [GraphQLDescription("Creates a game")]
+        public Game? CreateGame([Service] DBContext dBContext, 
+            [GraphQLDescription("Name of the game")] string name, 
+            [GraphQLDescription("List of the game's genres")] List<string> genres, 
+            [GraphQLDescription("(Optional) Publication date of the game in YYYYMMDD format")] int? publicationDate, 
+            [GraphQLDescription("List of ids of editors who contributed to the game")] List<int> editors, 
+            [GraphQLDescription("List of ids of studios who contributed to the game")] List<int> studios, 
+            [GraphQLDescription("List of platforms you can play the game on")] List<string> platforms)
         {
             genres = genres.Distinct().ToList();
             editors = editors.Distinct().ToList();
@@ -146,7 +169,15 @@ namespace GraphQL
             return newGame.Entity;
         }
 
-        public Game? EditGame([Service] DBContext dBContext, [ID] int id, string? name, List<string>? genres, int? publicationDate, List<int>? editors, List<int>? studios, List<string>? platforms)
+        [GraphQLDescription("Edits an already existing game")]
+        public Game? EditGame([Service] DBContext dBContext, 
+            [GraphQLDescription("Id of the game to edit")] [ID] int id, 
+            [GraphQLDescription("(Optional) New name of the game")] string? name, 
+            [GraphQLDescription("(Optional) New list of the game's genres")] List<string>? genres, 
+            [GraphQLDescription("(Optional) New publication date of the game in YYYYMMDD format")] int? publicationDate, 
+            [GraphQLDescription("(Optional) New list of ids of editors who contributed to the game")] List<int>? editors, 
+            [GraphQLDescription("(Optional) New list of ids of studios who contributed to the game")] List<int>? studios, 
+            [GraphQLDescription("(Optional) New list of platforms you can play the game on")] List<string>? platforms)
         {
             Game? game = dBContext.Games.Include(g=>g.Editors).Include(g=>g.Studios).SingleOrDefault(g => g.Id == id);
             if (game == null) return null;
@@ -210,7 +241,8 @@ namespace GraphQL
             return game;
         }
 
-        public bool DeleteGame([Service] DBContext dbContext, [ID] int id)
+        [GraphQLDescription("Delete a game")]
+        public bool DeleteGame([Service] DBContext dbContext, [GraphQLDescription("Id of the game")][ID] int id)
         {
             Game? game = dbContext.Games.SingleOrDefault(s => s.Id == id);
             if (game == null) return false;
