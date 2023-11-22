@@ -23,5 +23,5 @@ Go to the solution's folder. Use the command `dotnet restore`, then `dotnet tool
 
 ## How to use
 
-Build and execute the code (In cmd, use `dotnet run`). A web page should open (it won't in cmd. Use the given port and plug it in your web browser along with `https://localhost`). Add to the URL `/graphql`. You will be able to test the API using this page.
+Build and execute the code (In cmd, use `dotnet run`). A web page should open (it won't in cmd. Follow the given URL (`Now listening on: http://localhost:<port number>`)). Add to the URL `/graphql`. You will be able to test the API using this page.
 You'll need to manually feed the databse by yourself for now.
