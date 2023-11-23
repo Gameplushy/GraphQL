@@ -4,7 +4,7 @@ using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<DBContext>(opt => opt.UseSqlServer("Server=(local)\\SQLEXPRESS;Database=GRAPHQL;Integrated Security=SSPI;TrustServerCertificate=True"));
+builder.Services.AddDbContext<DBContext>(opt => opt.UseInMemoryDatabase("GraphQL"));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
