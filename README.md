@@ -18,7 +18,7 @@ Open the solution (.sln file) using Visual Studio. In case there are compiler er
 Go to the solution's folder. Use the command `dotnet restore`.
 
 ### Using the executable
-Download the zip [here](https://github.com/Gameplushy/GraphQL/releases/tag/full-release).
+Download the zip [here](https://github.com/Gameplushy/GraphQL/releases/tag/in-memory-release).
 
 ## How to use
 
