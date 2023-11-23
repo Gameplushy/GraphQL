@@ -23,5 +23,11 @@ Go to the solution's folder. Use the command `dotnet restore`, then `dotnet tool
 
 ## How to use
 
-Build and execute the code (In cmd, use `dotnet run`). A web page should open (it won't in cmd. Follow the given URL (`Now listening on: http://localhost:<port number>`)). Add to the URL `/graphql`. You will be able to test the API using this page.
-You'll need to manually feed the databse by yourself for now.
+### Using Visual Studio
+Build and execute the code. A web page should open. Add to the URL `/graphql`. This will open a BananaCakeTop (GraphQL testing page). All you have to do is click "Create Document" the first time and you will be able to test the API using this page.
+
+### Using cmd
+In cmd, use `dotnet run`. Follow the given URL (`Now listening on: http://localhost:<port number>`)). Add to the URL `/graphql`. This will open a BananaCakeTop (GraphQL testing page). All you have to do is click "Create Document" the first time and you will be able to test the API using this page.
+
+### Using the exe found [here](https://github.com/Gameplushy/GraphQL/releases/tag/full-release)
+Execute the exe file. Follow the given URL (`Now listening on: http://localhost:<port number>`)). Add to the URL `/graphql`. This will open a BananaCakeTop (GraphQL testing page). All you have to do is click "Create Document" the first time and you will be able to test the API using this page.
