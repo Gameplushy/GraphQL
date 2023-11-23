@@ -31,3 +31,6 @@ In cmd, use `dotnet run`. Follow the given URL (`Now listening on: http://localh
 
 ### Using the exe found [here](https://github.com/Gameplushy/GraphQL/releases/tag/full-release)
 Execute the exe file. Follow the given URL (`Now listening on: http://localhost:<port number>`)). Add to the URL `/graphql`. This will open a BananaCakeTop (GraphQL testing page). All you have to do is click "Create Document" the first time and you will be able to test the API using this page.
+
+## Having trouble with the SQL connection?
+You might want to use the [in-memory branch](https://github.com/Gameplushy/GraphQL/tree/in-memory) instead.
