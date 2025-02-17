@@ -4,9 +4,15 @@ using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<DBContext>(opt => opt.UseSqlServer("Server=(local)\\SQLEXPRESS;Database=GRAPHQL;Integrated Security=SSPI;TrustServerCertificate=True"));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddGraphQLServer()
+                .AddQueryType<Query>()
+                .AddMutationType<Mutation>()
+                .AddDefaultTransactionScopeHandler()
+                .AddMutationConventions(applyToAllMutations: true);
 
 
 var app = builder.Build();
@@ -28,5 +34,6 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+app.MapGraphQL();
 
 app.Run();
